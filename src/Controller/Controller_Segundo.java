@@ -7,11 +7,11 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-public class Controller {
+public class Controller_Segundo {
     private Repository repository;
     private Scanner scanner;
 
-    public Controller(Repository repository) {
+    public Controller_Segundo(Repository repository) {
         this.repository = repository;
         this.scanner = new Scanner(System.in);
     }
@@ -71,12 +71,12 @@ public class Controller {
         System.out.print("Digite o preço do produto: ");
         double preco = Double.parseDouble(scanner.nextLine());
 
-        repository.adicionarProduto(new Produto(codigo, nome, preco));
+        repository.add(new Produto(codigo, nome, preco));
         System.out.println("Produto adicionado com sucesso!");
     }
 
     private void listarProdutos() {
-        List<Produto> produtos = repository.getProdutos();
+        List<Produto> produtos = repository.getAll();
         if (produtos.isEmpty()) {
             System.out.println("Não há produtos disponíveis.");
         } else {
@@ -91,7 +91,7 @@ public class Controller {
         System.out.print("Digite o código do produto que deseja atualizar: ");
         String codigo = scanner.nextLine();
 
-        Produto produto = repository.buscarProdutoPorCodigo(codigo);
+        Produto produto = repository.getById(codigo);
         if (produto != null) {
             System.out.print("Digite o novo nome do produto: ");
             produto.setNome(scanner.nextLine());
@@ -107,7 +107,7 @@ public class Controller {
         System.out.print("Digite o código do produto que deseja remover: ");
         String codigo = scanner.nextLine();
 
-        if (repository.removerProduto(codigo)) {
+        if (repository.remove(codigo)) {
             System.out.println("Produto removido com sucesso!");
         } else {
             System.out.println("Produto não encontrado.");
