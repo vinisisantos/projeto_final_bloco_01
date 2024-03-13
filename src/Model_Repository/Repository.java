@@ -1,18 +1,44 @@
 package Model_Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public interface Repository {
+public class Repository implements CrudRepository<Produto> {
+    private List<Produto> produtos = new ArrayList<>();
 
-    List<Produto> getProdutos();
+    @Override
+    public List<Produto> getAll() {
+        return produtos;
+    }
 
-    void adicionarProduto(Produto produto);
+    @Override
+    public void add(Produto produto) {
+        produtos.add(produto);
+    }
 
-    void listarProdutos();
+    @Override
+    public void update(String codigoProduto, Produto novoProduto) {
+        for (Produto produto : produtos) {
+            if (produto.getCodigo().equals(codigoProduto)) {
+                produto.setNome(novoProduto.getNome());
+                produto.setPreco(novoProduto.getPreco());
+                break;
+            }
+        }
+    }
 
-    void atualizarProduto(String codigoProduto, Produto novoProduto);
+    @Override
+    public boolean remove(String codigoProduto) {
+        return produtos.removeIf(produto -> produto.getCodigo().equals(codigoProduto));
+    }
 
-    boolean removerProduto(String codigoProduto);
-
-    Produto buscarProdutoPorCodigo(String codigoProduto);
+    @Override
+    public Produto getById(String codigoProduto) {
+        for (Produto produto : produtos) {
+            if (produto.getCodigo().equals(codigoProduto)) {
+                return produto;
+            }
+        }
+        return null;
+    }
 }
